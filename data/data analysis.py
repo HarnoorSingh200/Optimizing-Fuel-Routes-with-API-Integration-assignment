@@ -1,7 +1,8 @@
+from pathlib import Path
 import pandas as pd
 from collections import Counter
 
-FILE_PATH = "fuel_prices.csv"
+FILE_PATH = Path(__file__).resolve().parent / "fuel_prices.csv"
 
 
 def main():

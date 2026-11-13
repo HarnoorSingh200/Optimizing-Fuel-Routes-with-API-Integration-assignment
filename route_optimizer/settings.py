@@ -26,12 +26,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ljzwo6b^(6d=y!sea!36sjvn^!w)-s&7=^+m5lx4k#pd7i%qzx'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-ljzwo6b^(6d=y!sea!36sjvn^!w)-s&7=^+m5lx4k#pd7i%qzx")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
 
-ALLOWED_HOSTS = []
+allowed_hosts_env = os.getenv("ALLOWED_HOSTS", "*")
+ALLOWED_HOSTS = [h.strip() for h in allowed_hosts_env.split(",") if h.strip()]
 
 
 # Application definition
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'route_optimizer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'ui'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
